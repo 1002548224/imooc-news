@@ -31,6 +31,10 @@
 					name: 'get_label'
 				}).then((res) => {
 					const {data} = res
+					console.log('标签', data)
+					data.unshift({
+						name:'全部'
+					})
 					this.tabList = data
 				})
 			},
@@ -40,6 +44,7 @@
 			},
 			change(current) {
 				this.tableIndex = current
+				this.activeIndex = current
 				// console.log(current)
 			}
 		}
