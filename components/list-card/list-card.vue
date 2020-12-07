@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view @click="open">
 		<!-- 基础卡片 -->
 		<view class="listcard" v-if="item.mode === 'base'">
 			<view class="listcard-image">
@@ -8,6 +8,7 @@
 			<view class="listcard-content">
 				<view class="listcard-content_title">
 					<text>{{item.title}}</text>
+					<likes :item="item"></likes>
 				</view>
 				<view class="listcard-content__des">
 					<view class="listcard-content__des-label">
@@ -26,6 +27,7 @@
 			<view class="listcard-content">
 				<view class="listcard-content_title">
 					<text>{{item.title}}</text>
+					<likes :item="item"></likes>
 				</view>
 				<view class="listcard-image">
 					<view v-if="index1 < 3" v-for="(item, index1) in item.cover" :key="index1" class="listcard-image__item">
@@ -53,6 +55,7 @@
 			<view class="listcard-content">
 				<view class="listcard-content_title">
 					<text>{{item.title}}</text>
+					<likes :item="item"></likes>
 				</view>
 
 				<view class="listcard-content__des">
@@ -82,6 +85,11 @@
 			return {
 
 			};
+		},
+		methods: {
+			open() {
+				console.log('打开详情页面')
+			}
 		}
 	}
 </script>
@@ -116,6 +124,8 @@
 			width: 100%;
 
 			.listcard-content_title {
+				position: relative;
+				padding-right: 30px;
 				font-size: 14px;
 				color: #333;
 				font-weight: 400;
@@ -131,6 +141,7 @@
 					-webkit-line-clamp: 1;
 					-webkit-box-orient: vertical;
 				}
+				
 			}
 
 			.listcard-content__des {
