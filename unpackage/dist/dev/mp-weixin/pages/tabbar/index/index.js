@@ -107,13 +107,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
   navbar: function() {
-    return __webpack_require__.e(/*! import() | components/navbar/navbar */ "components/navbar/navbar").then(__webpack_require__.bind(null, /*! @/components/navbar/navbar.vue */ 37))
+    return __webpack_require__.e(/*! import() | components/navbar/navbar */ "components/navbar/navbar").then(__webpack_require__.bind(null, /*! @/components/navbar/navbar.vue */ 43))
   },
   tab: function() {
-    return __webpack_require__.e(/*! import() | components/tab/tab */ "components/tab/tab").then(__webpack_require__.bind(null, /*! @/components/tab/tab.vue */ 44))
+    return __webpack_require__.e(/*! import() | components/tab/tab */ "components/tab/tab").then(__webpack_require__.bind(null, /*! @/components/tab/tab.vue */ 50))
   },
   list: function() {
-    return __webpack_require__.e(/*! import() | components/list/list */ "components/list/list").then(__webpack_require__.bind(null, /*! @/components/list/list.vue */ 51))
+    return __webpack_require__.e(/*! import() | components/list/list */ "components/list/list").then(__webpack_require__.bind(null, /*! @/components/list/list.vue */ 57))
   }
 }
 var render = function() {
@@ -184,6 +184,10 @@ var _default = {
         name: 'get_label' }).
       then(function (res) {var
         data = res.data;
+        console.log('标签', data);
+        data.unshift({
+          name: '全部' });
+
         _this.tabList = data;
       });
     },
@@ -193,6 +197,7 @@ var _default = {
     },
     change: function change(current) {
       this.tableIndex = current;
+      this.activeIndex = current;
       // console.log(current)
     } }
 

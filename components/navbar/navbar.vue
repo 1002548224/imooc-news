@@ -4,14 +4,24 @@
 			<!-- 状态栏 -->
 			<view :style="{height: statusBarHeight + 'px'}"></view>
 			<!-- 导航栏内容 -->
-			<view class="navbar-content" :style="{height:navBarHeight + 'px', width:windowWidth+'px'}">
-				<view class="navbar-search">
+			<view class="navbar-content" :class="{search: isSearch}" :style="{height:navBarHeight + 'px', width:windowWidth+'px'}" @click.stop="open">
+				<!-- 返回箭头 -->
+				<view v-if="isSearch" class="navbar-content__search-icons" @click="back">
+					<uni-icons type="back" size="22" color="#fff"></uni-icons>
+				</view>
+				<!-- 搜索框  非搜索页显示-->
+				<view  v-if="!isSearch" class="navbar-search">
+					<!-- 搜索图标 -->
 					<view class="navbar-search_icon">
 						<!-- 搜索图标 -->
 						<uni-icons type="search" size="16" color="#999"></uni-icons>
 						<!-- <text class="iconfont icon-search"></text> -->
 					</view>
 					<view class="navbar-search_text">uni-app、vue</view>
+				</view>
+				<!-- 搜索页显示 -->
+				<view v-else class="navbar-search">
+					<input class="navbar-search_text" type="text" placeholder="请输入需要搜索的内容" v-model="val" @input="inputChange"/>
 				</view>
 			</view>
 		</view>
@@ -21,14 +31,32 @@
 
 <script>
 	export default {
+		props: {
+			// 是否在搜索页面
+			isSearch: {
+				type: Boolean,
+				default: true
+			},
+			value: {
+				type: [String, Number],
+				default: ''
+			}
+		},
 		data() {
 			return {
 				statusBarHeight: 20,
 				navBarHeight: 45,
-				windowWidth: 375
+				windowWidth: 375,
+				val: ''
+			}
+		},
+		watch:{
+			value(newVal) {
+				this.val = newVal
 			}
 		},
 		created() {
+			console.log(this.isSearch)
 			// 获取手机系统信息
 			const info = uni.getSystemInfoSync()
 			console.log(info)
@@ -46,7 +74,26 @@
 			// #endif
 		},
 		methods: {
-
+			open() {
+				if(this.isSearch) return
+				uni.navigateTo({
+					url: "/pages/home-search/home-search"
+				})
+			},
+			inputChange(e) {
+				const {value} = e.detail
+				// console.log(value)
+				this.$emit('input', value)
+			},
+			back() {
+				// uni.navigateBack({
+					
+				// })
+				// switchTab() 跳转到 tabBar 页面，并关闭其他所有非 tabBar 页面 
+				uni.switchTab({
+					url:'/pages/tabbar/index/index'
+				})
+			}
 		}
 	}
 </script>
@@ -97,11 +144,25 @@
 					}
 
 					.navbar-search_text {
-						font-size: 12px;
+						width: 100%;
+						font-size: 14px;
 						color: #999;
 					}
 				}
+
+				&.search {
+					padding-left: 0;
+
+					.navbar-content__search-icons {
+						margin-left: 10px;
+						margin-right: 10px;
+					}
+					.navbar-search {
+						border-radius: 5px;
+					}
+				}
 			}
+
 
 		}
 	}

@@ -1,7 +1,7 @@
 <template>
 	<view class="home">
 		<!-- 自定义导航栏 -->
-		<navbar></navbar>
+		<navbar :isSearch="false"></navbar>
 		<tab :list="tabList" @tab="tab" :tabIndex="tableIndex"></tab>
 		<view class="home-list">
 			<list :tab="tabList" @change="change" :activeIndex = "activeIndex"></list>
