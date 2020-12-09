@@ -22,14 +22,18 @@
 			}
 		},
 		onLoad() {
+			uni.$on('labelChange',(res)=>{
+				this.tabList = []
+				this.tableIndex = 0
+				this.activeIndex = 0
+				this.getLabel()
+			})
 			this.getLabel()
 		},
 		methods: {
 			getLabel() {
 				console.log(this.$api)
-				this.$api.get_label({
-					name: 'get_label'
-				}).then((res) => {
+				this.$api.get_label().then((res) => {
 					const {data} = res
 					console.log('标签', data)
 					data.unshift({
