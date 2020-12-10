@@ -19,7 +19,9 @@
 			</view>
 		</view>
 		<view class="detail-content">
-			详情数据
+			<view class="detail-html">
+				{{formData.content}}
+			</view>
 		</view>
 		<view class="detail-bottom">
 			<view class="detail-bottom__input">
@@ -50,10 +52,22 @@
 		},
 		onLoad(query) {
 			this.formData = JSON.parse(query.params1)
-			console.log(this.formData)
+			console.log("home-detail里的formData值:", this.formData)
+			this.getDetail()
 		},
 		methods: {
-
+			// 获取详情信息
+			getDetail() {
+				this.$api.get_detail({
+					article_id: this.formData._id
+				}).then((res) => {
+					const {
+						data
+					} = res
+					this.formData = data
+					console.log(res)
+				})
+			}
 		}
 	}
 </script>
@@ -114,8 +128,13 @@
 	}
 
 	.detail-content {
-		height: 1000px;
-		border: 1px red solid;
+		margin-top: 20px;
+		min-height: 500px;
+		// border: 1px red solid;
+
+		.detail-html {
+			padding: 0 15px;
+		}
 	}
 
 	.detail-bottom {
