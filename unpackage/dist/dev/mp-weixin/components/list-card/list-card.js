@@ -118,7 +118,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
 //
 //
 //
@@ -208,9 +208,38 @@ var _default =
   },
   methods: {
     open: function open() {
-      this.$emit('click', this.item);
-      console.log('打开详情页面');
+      // author: Object
+      // browse_count: 173
+      // classify: "后端开发"
+      // collection_count: 5
+      // comments_count: 0
+      // cover: Array(11)
+      // create_time: "2020.03.16 17:50"
+      // id: "302042"
+      // is_like: true
+      // mode: "column"
+      // thumbs_up_count: 5
+      // title: "疫情风险下的项目管理与紧急预案策略"
+      // _id: "5fc733c7fb0f850001799
+      var item = this.item;
+      this.$emit('click', item);
+
+      // params中是需要用到的字段
+      var params = {
+        author: item.author,
+        _id: item._id,
+        title: item.title,
+        create_time: item.create_time,
+        thumbs_up_count: item.thumbs_up_count,
+        browse_count: item.browse_count };
+
+      console.log('打开详情页面', item);
+      // 传参 注意长度
+      uni.navigateTo({
+        url: "/pages/home-detail/home-detail?params1=" + JSON.stringify(params) });
+
     } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 
