@@ -20,7 +20,7 @@
 		</view>
 		<view class="detail-content">
 			<view class="detail-html">
-				{{formData.content}}
+				<uParse :content="formData.content" :noData="noData"></uParse>
 			</view>
 		</view>
 		<view class="detail-bottom">
@@ -44,10 +44,12 @@
 </template>
 
 <script>
+	import uParse from '@/components/gaoyia-parse/parse.vue'
 	export default {
 		data() {
 			return {
-				formData: {}
+				formData: {},
+				noData: '<p style="text-align:center; color:#666">详情加载中...<p>'
 			}
 		},
 		onLoad(query) {
@@ -68,6 +70,9 @@
 					console.log(res)
 				})
 			}
+		},
+		components:{
+			uParse
 		}
 	}
 </script>
