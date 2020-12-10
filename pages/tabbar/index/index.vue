@@ -2,7 +2,9 @@
 	<view class="home">
 		<!-- 自定义导航栏 -->
 		<navbar :isSearch="false"></navbar>
+		<!-- 标签 -->
 		<tab :list="tabList" @tab="tab" :tabIndex="tableIndex"></tab>
+		<!-- 列表 -->
 		<view class="home-list">
 			<list :tab="tabList" @change="change" :activeIndex = "activeIndex"></list>
 		</view>
