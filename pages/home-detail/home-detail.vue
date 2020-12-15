@@ -28,7 +28,7 @@
 					最新评论
 				</view>
 				<view class="comment-content" v-for="(item, index) in commentsList" :key="index">
-					<comments-box :comments="item"></comments-box>
+					<comments-box  :comments="item" @reply="reply"></comments-box>
 				</view>
 			</view>
 		</view>
@@ -77,7 +77,8 @@
 				noData: '<p style="text-align:center; color:#666">详情加载中...<p>',
 				// 评论输入框的值
 				commentsValue: '',
-				commentsList: []
+				commentsList: [],
+				replyFormData: {}
 			}
 		},
 		
@@ -105,17 +106,27 @@
 				})
 			},
 			setUpdateComment(content) {
-				uni.showLoading()
-				this.$api.update_comment({
+				const formdata = {
 					article_id: this.formData._id,
-					content
-				}).then((res) => {
+					...content
+				}
+				// console.log(formdata)
+				// formdata:
+				// article_id: "5fc733c7fb0f8500017999ad"
+				// comment_id: "3gvhkz0lo1g0"
+				// content: "test"
+				
+				uni.showLoading()
+				this.$api.update_comment(formdata).then((res) => {
 					console.log(res)
 					uni.hideLoading()
 					uni.showToast({
 						title: '评论发布成功'
 					})
+					this.getComments()
+					this.replyFormData = {}
 					this.close()
+					this.commentsValue = ''
 				})
 			},
 			//  请求评论内容
@@ -146,8 +157,22 @@
 					})
 					return
 				}
-				this.setUpdateComment(this.commentsValue)
+				this.setUpdateComment({
+					content: this.commentsValue, ...this.replyFormData
+				})
 				
+			},
+			reply(e) {
+				this.replyFormData = {
+					"comment_id": e.comments.comment_id,
+					"is_reply": e.is_reply
+				}
+				if(e.comments.reply_id){
+					this.replyFormData.reply_id = e.comments.reply_id
+				}
+				console.log(this.replyFormData)
+				console.log(e)
+				this.openComment()
 			}
 		},
 		components:{
