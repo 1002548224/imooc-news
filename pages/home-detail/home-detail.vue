@@ -17,6 +17,7 @@
 					<text>{{formData.thumbs_up_count}} 赞</text>
 				</view>
 			</view>
+			<button type="default" class="detail-header__button" @click="follow(formData.author.id)">{{formData.is_author_like?'取消关注':'关注'}}</button>
 		</view>
 		<view class="detail-content">
 			<view class="detail-html">
@@ -28,7 +29,7 @@
 					最新评论
 				</view>
 				<view class="comment-content" v-for="(item, index) in commentsList" :key="index">
-					<comments-box  :comments="item" @reply="reply"></comments-box>
+					<comments-box :comments="item" @reply="reply"></comments-box>
 				</view>
 			</view>
 		</view>
@@ -173,6 +174,25 @@
 				console.log(this.replyFormData)
 				console.log(e)
 				this.openComment()
+			},
+			// 关注
+			follow(author_id) {
+				console.log("关注", this.formData)
+				this.setUpdateAuthor(author_id)
+			},
+			setUpdateAuthor(author_id){
+				uni.showLoading()
+				this.$api.update_author({
+					author_id
+				}).then(res => {
+					uni.hideLoading()
+					console.log(res)
+					this.formData.is_author_like = !this.formData.is_author_like
+					uni.showToast({
+						title:this.formData.is_author_like?'关注作者成功':'取消关注作者',
+						icon:'none'
+					})
+				})
 			}
 		},
 		components:{
@@ -233,6 +253,13 @@
 					margin-right: 10px;
 				}
 			}
+		}
+		.detail-header__button {
+			flex-shrink: 0;
+			height: 30px;
+			font-size: 12px;
+			color: #fff;
+			background-color: $mk-base-color;
 		}
 	}
 
