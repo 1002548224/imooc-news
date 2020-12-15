@@ -2,6 +2,9 @@
   "navigationBarTitleText": "",
   "enablePullDownRefresh": false,
   "usingComponents": {
-    "uni-icons": "/components/uni-icons/uni-icons"
+    "comments-box": "/components/comments-box/comments-box",
+    "uni-icons": "/components/uni-icons/uni-icons",
+    "uni-popup": "/components/uni-popup/uni-popup",
+    "u-parse": "/components/gaoyia-parse/parse"
   }
 }
