@@ -48,6 +48,11 @@
 		created() {
 			// tab还没有赋值
 			// this.getList(0)
+			uni.$on('update_article',()=>{
+				this.listCatchData = {}
+				this.load = {}
+				this.getList(this.activeIndex)
+			})
 		},
 		methods: {
 			change(e) {
