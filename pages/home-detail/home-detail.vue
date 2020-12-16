@@ -42,8 +42,9 @@
 				<view class="detail-bottom__icons-box">
 					<uni-icons type="chat" size="22" color="#f07373"></uni-icons>
 				</view>
-				<view class="detail-bottom__icons-box">
-					<uni-icons type="heart" size="22" color="#f07373"></uni-icons>
+				<!-- 收藏 -->
+				<view class="detail-bottom__icons-box" @click="likeTap(formData._id)">
+					<uni-icons :type="formData.is_like? 'heart-filled':'heart'" size="22" color="#f07373"></uni-icons>
 				</view>
 				<view class="detail-bottom__icons-box">
 					<uni-icons type="hand-thumbsup" size="22" color="#f07373"></uni-icons>
@@ -180,6 +181,7 @@
 				console.log("关注", this.formData)
 				this.setUpdateAuthor(author_id)
 			},
+			// 关注作者
 			setUpdateAuthor(author_id){
 				uni.showLoading()
 				this.$api.update_author({
@@ -192,6 +194,26 @@
 						title:this.formData.is_author_like?'关注作者成功':'取消关注作者',
 						icon:'none'
 					})
+				})
+			},
+			// 关注
+			likeTap(article_id){
+				console.log('收藏文章')
+				this.setUpdateLike(article_id)
+			},
+			// 收藏文章
+			setUpdateLike(article_id){
+				uni.showLoading()
+				this.$api.update_like({
+					article_id
+				}).then(res => {
+					uni.hideLoading()
+					this.formData.is_like = !this.formData.is_like
+					uni.showToast({
+						title:this.formData.is_like?'收藏成功':'取消收藏',
+						icon:'none'
+					})
+					console.log('收藏成功')
 				})
 			}
 		},
