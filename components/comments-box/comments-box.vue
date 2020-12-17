@@ -12,7 +12,8 @@
 					{{comments.author.author_name}} <text class="reply-text">回复</text> {{comments.to}}
 				</view>
 				<view class="">
-					{{comments.create_time}}
+					<!-- comments.create_time是formatTime的第一个参数 -->
+					{{comments.create_time | formatTime}}
 				</view>
 			</view>
 		</view>
@@ -36,6 +37,7 @@
 <script>
 	// 递归引用组件 “自己引用自己”
 	import commentsBox from '@/components/comments-box/comments-box.vue'
+	import {parseTime} from '@/utils/index.js'
 	export default {
 		name: "commentsBox", //自己引用自己，需要用name
 		props: {
@@ -43,11 +45,16 @@
 				type: Object,
 				default () {
 					return {}
-				}
+				} 
 			},
 			reply: {
 				type: Boolean,
 				default: false
+			}
+		},
+		filters:{
+			formatTime(time){
+				return parseTime(time)
 			}
 		},
 		data() {

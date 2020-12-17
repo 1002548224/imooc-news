@@ -21,8 +21,7 @@
 		</view>
 		<view class="detail-content">
 			<view class="detail-html">
-				<!-- <uParse :content="formData.content" :noData="noData"></uParse> -->
-				内容
+				<uParse :content="formData.content" :noData="noData"></uParse>
 			</view>
 			<view class="detail-comment">
 				<view class="comment-title">
@@ -39,7 +38,7 @@
 				<uni-icons type="compose" size="16" color="#f07373"></uni-icons>
 			</view>
 			<view class="detail-bottom__icons">
-				<view class="detail-bottom__icons-box">
+				<view class="detail-bottom__icons-box" @click="open">
 					<uni-icons type="chat" size="22" color="#f07373"></uni-icons>
 				</view>
 				<!-- 收藏 -->
@@ -52,7 +51,7 @@
 			</view>
 		</view>
 		<!-- maskClick: 蒙版点击是否关闭弹窗 -->
-		<uni-popup ref="popup" type="bottom" :maskClick="false">
+		<!-- <uni-popup ref="popup" type="bottom" :maskClick="false">
 			<view class="popup-wrap">
 				<view class="popup-header">
 					<text class="popup-header__item" @click="close">取消</text>
@@ -60,18 +59,20 @@
 				</view>
 				<view class="popup-content">
 					<!-- 如果 textarea 是在一个 position:fixed 的区域，需要显示指定属性 fixed 为 true  -->
-					<textarea class="popup-content__textarea" v-model="commentsValue" maxlength="200" fixed placeholder="请输入评论内容" />
+					<!-- <textarea class="popup-content__textarea" v-model="commentsValue" maxlength="200" fixed placeholder="请输入评论内容" />
 					<view class="popup-content__count">
 						{{commentsValue.length}}/200
 					</view>
 				</view>
 			</view>
-		</uni-popup>
+		</uni-popup> --> 
+		<comments-mask ref="popup" :commentsValue="commentsValue" @submit="submit"></comments-mask>
 	</view>
-</template>
+</template>  
 
 <script>
 	import uParse from '@/components/gaoyia-parse/parse.vue'
+	
 	export default {
 		data() {
 			return {
@@ -84,9 +85,7 @@
 				thumbs: ''
 			}
 		},
-		
 		onLoad(query) {
-			
 			this.formData = JSON.parse(query.params1)
 			console.log("home-detail里的formData值:", this.formData)
 			this.getDetail()
@@ -103,6 +102,12 @@
 			}
 		},
 		methods: {
+			// 打开评论列表页面
+			open(){
+				uni.navigateTo({
+					url:'../detail-comments/detail-comments?id='+this.formData._id
+				})
+			},
 			// 获取详情信息
 			getDetail() {
 				this.$api.get_detail({
@@ -158,8 +163,9 @@
 				this.$refs.popup.close()
 			},
 			// 发布
-			submit() {
-				console.log('发布')
+			submit(commentsValue1) {
+				this.commentsValue = commentsValue1
+				console.log(this.commentsValue)
 				if(!this.commentsValue){
 					uni.showToast({
 						title:'请输入评论内容',
@@ -381,34 +387,34 @@
 			}
 		}
 	}
-	.popup-wrap {
-		background-color: #fff;
-		.popup-header {
-			display: flex;
-			justify-content: space-between;
-			font-size: 14xp;
-			color: #666;
-			border-bottom: 1px #f5f5f5 solid;
-			.popup-header__item {
-				height: 50px;
-				line-height: 50px;
-				padding: 0 15px;
-			}
-		}
-		.popup-content {
-			width: 100%;
-			padding: 15px;
-			box-sizing: border-box;
-			.popup-content__textarea {
-				width: 100%;
-				height: 200px;
-			}
-			.popup-content__count {
-				display: flex;
-				justify-content: flex-end;
-				font-size: 12px;
-				color: #999;
-			}
-		}
-	}
+	// .popup-wrap {
+	// 	background-color: #fff;
+	// 	.popup-header {
+	// 		display: flex;
+	// 		justify-content: space-between;
+	// 		font-size: 14xp;
+	// 		color: #666;
+	// 		border-bottom: 1px #f5f5f5 solid;
+	// 		.popup-header__item {
+	// 			height: 50px;
+	// 			line-height: 50px;
+	// 			padding: 0 15px;
+	// 		}
+	// 	}
+	// 	.popup-content {
+	// 		width: 100%;
+	// 		padding: 15px;
+	// 		box-sizing: border-box;
+	// 		.popup-content__textarea {
+	// 			width: 100%;
+	// 			height: 200px;
+	// 		}
+	// 		.popup-content__count {
+	// 			display: flex;
+	// 			justify-content: flex-end;
+	// 			font-size: 12px;
+	// 			color: #999;
+	// 		}
+	// 	}
+	// }
 </style>

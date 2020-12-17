@@ -4,7 +4,9 @@ const $ = db.command.aggregate
 exports.main = async (event, context) => {
 	const {
 		user_id,
-		article_id
+		article_id,
+		pageSize = 10,  //每页显示多少条
+		page = 1   //显示第几页
 	} = event
 
 	const list = await db.collection('article')
@@ -26,6 +28,10 @@ exports.main = async (event, context) => {
 		.replaceRoot({
 			newRoot: '$comments'
 		})
+		// 指定一个正整数，跳过对应数量的文档，输出剩下的文档。 (分页的时候用)
+		.skip(pageSize*(page - 1))
+		// 限制输出到下一阶段的记录数。   限制显示多少条数据
+		.limit(pageSize)
 		.end()
 
 	//返回数据给客户端
