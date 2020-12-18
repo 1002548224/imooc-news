@@ -5,12 +5,16 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
 	// 数据源
 	state: {
+		userinfo: uni.getStorageSync('USERINFO') || {},
 		// uni.setStorageSync(KEY,DATA)  
 		// 将 data 存储在本地缓存中指定的 key 中，会覆盖掉原来该 key 对应的内容，这是一个同步接口。
 		historyLists: uni.getStorageSync("__history") || []
 	},
 	// 改变数据源里的数据
 	mutations: {
+		SET_USER_INFO(state, userinfo){
+			state.userinfo = userinfo
+		},
 		SET_HISTORY_LISTS(state, history) {
 			state.historyLists = history
 		},
@@ -20,6 +24,10 @@ const store = new Vuex.Store({
 	},
 	// 异步操作
 	actions: {
+		set_userinfo({commit}, userinfo) {
+			uni.setStorageSync('USERINFO', userinfo)
+			commit('SET_USER_INFO',userinfo)
+		},
 		set_history({commit, state}, history) {
 			let list = state.historyLists
 			list.unshift(history)

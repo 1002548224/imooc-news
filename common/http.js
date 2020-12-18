@@ -1,9 +1,11 @@
+import store from '../store/index.js'
 export default function $http(options){
 	const {url,data} = options
 	const dataObj = {
-		user_id: '5fc733ca974b690001e444c9',
+		user_id: store.state.userinfo._id,
 		...data
 	}
+	
 	return new Promise((resolve, reject) => {
 		uniCloud.callFunction({
 			name: url, //云函数的名称
